@@ -1,22 +1,30 @@
-import React from 'react'
-import Navbar from './componets/navbar'
+import { useState } from 'react'
 import Header from './componets/Header'
+import Navbar from './componets/navbar'
+import StudentList from './componets/student'
 import Footer from './componets/Footer'
+import './index.css'
 import Image from './componets/image'
-import Student from './componets/student'
+function App() {
+  const [theme, setTheme] = useState('light');
 
-export default function App() {
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
+
   return (
-    <>
-      <Navbar />
+    <div className={`app-container ${theme}`}>
+      <button className="theme-toggle" onClick={toggleTheme}>
+        {theme === 'light' ? '🌙' : '☀️'}
+      </button>
       <Header />
-      <div className="container text-center my-5">
-        <h1>Namaste</h1>
-        <Image />
-      </div>
-      <Student />
+      <Navbar />
+      <Image />
+      <StudentList />
       <Footer />
-    </>
+    </div>
   )
 }
+
+export default App
 
