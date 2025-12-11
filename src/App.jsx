@@ -3,10 +3,14 @@ import Header from './componets/Header'
 import Navbar from './componets/navbar'
 import StudentList from './componets/student'
 import Footer from './componets/Footer'
+import ItemForm from './componets/ItemForm'
 import './index.css'
 import Image from './componets/image'
+
 function App() {
   const [theme, setTheme] = useState('light');
+  const [currentPage, setCurrentPage] = useState('home');
+  const [itemCount, setItemCount] = useState(0);
 
   const toggleTheme = () => {
     setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
@@ -18,9 +22,17 @@ function App() {
         {theme === 'light' ? '🌙' : '☀️'}
       </button>
       <Header />
-      <Navbar />
-      <Image />
-      <StudentList />
+      <Navbar onNavigate={setCurrentPage} currentPage={currentPage} itemCount={itemCount} />
+      
+      {currentPage === 'home' && (
+        <>
+          <Image />
+          <StudentList />
+        </>
+      )}
+      
+      {currentPage === 'itemform' && <ItemForm onItemCountChange={setItemCount} />}
+      
       <Footer />
     </div>
   )
