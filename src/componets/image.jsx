@@ -1,13 +1,20 @@
 import React from 'react'
 
-export default function image() {
+function Image() {
+  const imgStyle = {
+    textAlign: "center",
+    padding: "20px"
+  };
+
   return (
-       <div style={{ textAlign: "center", padding: "20px" }}> {/* Changed body to div */}
-          <img
-            src="https://via.placeholder.com/150"
-            alt="Placeholder Logo" aria-placeholder='This is a component for displaying an image'
-            style={{ marginTop: "100px" }}
-          />
-        </div>
-  )
+    <div style={imgStyle}>
+      <img
+        src="https://via.placeholder.com/150"
+        alt="Placeholder Logo"
+        style={{ marginTop: "100px" }}
+      />
+    </div>
+  );
 }
+
+export default Image;

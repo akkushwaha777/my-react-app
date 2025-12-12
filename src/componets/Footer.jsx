@@ -1,13 +1,14 @@
-
 import React from "react";
 
 function Footer() {
+  const year = new Date().getFullYear();
+  
   return (
-    <div className="container text-center bg-dark text-white footer">
-    <footer style={{ textAlign: "center", padding: "1px" }}>
-      <p>© 2025 My App. All rights reserved.</p>
+    <footer className="mt-auto py-3 bg-light border-top text-center">
+      <small className="text-muted">
+        © {year} Record Manager
+      </small>
     </footer>
-    </div>
   );
 }
 

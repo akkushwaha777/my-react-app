@@ -1,38 +1,51 @@
 import React, { useState } from 'react';
 
-const Card = ({ title, description, category, details, actionText = 'More Details' }) => {
+
+const Card = ({ title, description, category, details, actionText = 'More Details', completed, onToggle, onDelete }) => {
   const [showDetails, setShowDetails] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isPurchased, setIsPurchased] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [isRead, setIsRead] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [purchased, setPurchased] = useState(false);
+  const [done, setDone] = useState(completed);
+  const [read, setRead] = useState(false);
 
-  const toggleDetails = () => {
-    setShowDetails(!showDetails);
-  };
+  const toggleDetails = () => setShowDetails(!showDetails);
 
-  const handleLike = () => {
-    setIsLiked(!isLiked);
-  };
+  const handleLike = () => setLiked(!liked);
 
-  const handlePurchase = () => {
-    setIsPurchased(!isPurchased);
-  };
+  const handlePurchase = () => setPurchased(!purchased);
 
   const handleComplete = () => {
-    setIsCompleted(!isCompleted);
+    setDone(!done);
+    if(onToggle) onToggle();
   };
 
-  const handleRead = () => {
-    setIsRead(!isRead);
-  };
+  const handleRead = () => setRead(!read);
 
   return (
-    <div className="card">
+    <div className={`card h-100 ${done ? 'border-success' : ''}`}>
       <div className="card-body">
-        <h3 className="card-title">{title}</h3>
-        <p className="card-text">{description}</p>
-        {category && <span className="badge-category">{category}</span>}
+        <div className="d-flex justify-content-between align-items-start">
+          <h6 className={`card-title mb-1 ${done ? 'text-success' : ''}`}>
+            {title ? title : 'Untitled'}
+          </h6>
+          <span className="badge text-bg-secondary">{category || 'General'}</span>
+        </div>
+        <p className={`card-text ${done ? 'text-muted text-decoration-line-through' : ''}`}>
+          {description || 'No description'}
+        </p>
+        <div className="d-flex gap-2">
+          <button
+            className={`btn btn-sm ${done ? 'btn-success' : 'btn-outline-success'}`}
+            onClick={handleComplete}
+          >
+            {done ? 'Completed' : 'Mark Complete'}
+          </button>
+          {typeof onDelete === 'function' && (
+            <button className="btn btn-sm btn-outline-danger" onClick={onDelete}>
+              Delete
+            </button>
+          )}
+        </div>
         
         {showDetails && details && (
           <div className="card-details">
@@ -48,31 +61,28 @@ const Card = ({ title, description, category, details, actionText = 'More Detail
       <div className="card-footer">
         <div className="button-group">
           <button 
-            className={`btn-like ${isLiked ? 'active' : ''}`}
+            className={`btn-like ${liked ? 'active' : ''}`}
             onClick={handleLike}
           >
-            {isLiked ? ' Liked' : ' Like'}
+            {liked ? ' Liked' : ' Like'}
           </button>
 
           <button 
-            className={`btn-purchase ${isPurchased ? 'active' : ''}`}
-            onClick={handlePurchase}
-          >
-            {isPurchased ? ' Purchased' : ' Purchase'}
+            className={`btn-purchase ${purchased ? 'active' : ''}`}
+            onClick={handlePurchase}>
+            {purchased ? ' Purchased' : ' Purchase'}
           </button>
 
           <button 
-            className={`btn-complete ${isCompleted ? 'active' : ''}`}
-            onClick={handleComplete}
-          >
-            {isCompleted ? ' Completed' : ' Mark as Done'}
+            className={`btn-complete ${done ? 'active' : ''}`}
+            onClick={handleComplete}>
+            {done ? ' Completed' : ' Mark as Done'}
           </button>
 
           <button 
-            className={`btn-read ${isRead ? 'active' : ''}`}
-            onClick={handleRead}
-          >
-            {isRead ? ' Read' : ' Read'}
+            className={`btn-read ${read ? 'active' : ''}`}
+            onClick={handleRead}>
+            {read ? ' Read' : ' Read'}
           </button>
 
           <button 
